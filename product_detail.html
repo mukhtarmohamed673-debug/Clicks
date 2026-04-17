@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} | Black Is Beauty{% endblock %}
+
+{% block content %}
+<style>
+.product-detail-section {
+    padding: 60px 0;
+}
+
+.product-detail-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 30px;
+}
+
+.product-detail-image-wrap {
+    background: var(--cream);
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-detail-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-detail-placeholder {
+    color: var(--text-light);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+}
+
+.product-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.product-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 16px;
+}
+
+.product-price {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--brown-mid);
+    margin-bottom: 20px;
+}
+
+.product-description {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-mid);
+    margin-bottom: 24px;
+}
+
+.related-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+}
+
+.related-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    height: 100%;
+}
+
+.related-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.related-card-body {
+    padding: 16px;
+}
+
+.related-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+}
+
+.related-card-price {
+    color: var(--brown-mid);
+    font-weight: 500;
+}
+</style>
+
+<section class="product-detail-section">
+    <div class="container">
+        <div class="mb-4">
+            <a href="{% url 'homepage' %}?category={{ product.category.id }}#products-section">
+                ← Back to {{ product.category.name }}
+            </a>
+        </div>
+
+        <div class="product-detail-card">
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="product-detail-image-wrap">
+                        {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                        <div class="product-detail-placeholder">{{ product.name }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <span class="product-eyebrow">{{ product.category.name }}</span>
+                    <h1 class="product-title">{{ product.name }}</h1>
+                    <div class="product-price">£{{ product.price }}</div>
+
+                    <div class="product-description">
+                        {% if product.description %}
+                            {{ product.description|linebreaks }}
+                        {% else %}
+                            <p>No description has been added for this product yet.</p>
+                        {% endif %}
+                    </div>
+
+                    <form method="post" action="{% url 'homepage' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="product" value="{{ product.id }}">
+                        <input type="hidden" name="next_url" value="{% url 'product_detail' product.id %}">
+                        <button type="submit" class="btn btn-dark btn-lg">Add to Bag</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if related_products %}
+<section class="pb-5">
+    <div class="container">
+        <h2 class="related-title">You may also like</h2>
+        <div class="row">
+            {% for item in related_products %}
+            <div class="col-6 col-md-3 mb-4">
+                <div class="related-card">
+                    <a href="{% url 'product_detail' item.id %}">
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.name }}">
+                        {% else %}
+                        <div class="product-detail-image-wrap" style="min-height:220px;">{{ item.name }}</div>
+                        {% endif %}
+                    </a>
+                    <div class="related-card-body">
+                        <a href="{% url 'product_detail' item.id %}">
+                            <div class="related-card-name">{{ item.name }}</div>
+                        </a>
+                        <div class="related-card-price">£{{ item.price }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

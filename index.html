@@ -1,0 +1,454 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Black Is Beauty | Premium Afro Hair & Beauty Products UK{% endblock %}
+
+{% block content %}
+<style>
+.hero-slider {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-slide {
+    min-height: 520px;
+    display: flex !important;
+    align-items: center;
+    background: linear-gradient(135deg, #2C1810 0%, #6B3F2A 40%, #C9A96E 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 12px;
+}
+
+.hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 300;
+    color: #fff;
+    line-height: 1.1;
+    margin-bottom: 18px;
+}
+
+.hero-title em {
+    font-style: italic;
+    color: var(--gold);
+}
+
+.hero-subtitle {
+    font-size: 0.9rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 32px;
+}
+
+.btn-hero-primary {
+    background: var(--gold);
+    color: var(--brown-dark);
+    border: none;
+    border-radius: 0;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 14px 36px;
+    display: inline-block;
+}
+
+.btn-hero-primary:hover {
+    background: #fff;
+    color: var(--brown-dark);
+    text-decoration: none;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 8px;
+}
+
+.section-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+}
+
+.section-header .divider {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 16px;
+    display: block;
+}
+
+.section-header p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.section-products,
+.section-brands,
+.section-newsletter {
+    padding: 60px 0;
+}
+
+.tabs-nav-wrap {
+    margin-bottom: 30px;
+}
+
+.tabs-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.tabs-nav .nav-link {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    padding: 10px 18px;
+    border-radius: 0;
+    transition: all 0.2s;
+}
+
+.tabs-nav .nav-link:hover,
+.tabs-nav .nav-link.active {
+    color: var(--brown-dark);
+    border-color: var(--gold);
+    background: var(--gold-pale);
+    text-decoration: none;
+}
+
+.prd-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: 0.2s;
+    overflow: hidden;
+    height: 100%;
+}
+
+.prd-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(44,24,16,0.1);
+}
+
+.prd-card-link {
+    display: block;
+    text-decoration: none;
+}
+
+.prd-img-wrap {
+    height: 230px;
+    overflow: hidden;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prd-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.prd-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--cream) 0%, var(--border) 100%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    text-align: center;
+    padding: 10px;
+}
+
+.prd-body {
+    padding: 16px;
+}
+
+.prd-category {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 4px;
+}
+
+.prd-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+.prd-price {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--brown-mid);
+    margin-bottom: 12px;
+}
+
+.prd-desc-preview {
+    font-size: 0.84rem;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.btn-add-cart {
+    width: 100%;
+    background: var(--brown-dark);
+    color: var(--gold-light);
+    border: none;
+    border-radius: 0;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px;
+}
+
+.btn-add-cart:hover {
+    background: var(--brown-mid);
+}
+
+.brand-pill {
+    display: inline-block;
+    padding: 10px 24px;
+    border: 1px solid var(--border);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    background: var(--bg-card);
+    margin: 5px;
+}
+</style>
+
+<section class="hero-slider">
+    <div id="heroCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <div class="carousel-inner">
+
+            <div class="carousel-item active">
+                <div class="hero-slide">
+                    <div class="container">
+                        <div class="row align-items-center">
+                            <div class="col-md-6 hero-content" style="padding: 80px 0;">
+                                <span class="hero-eyebrow">New Season Collection</span>
+                                <h1 class="hero-title">Your Crown,<br><em>Your Story</em></h1>
+                                <p class="hero-subtitle">Premium Afro hair care, wigs, skincare and beauty products crafted for melanin-rich beauty.</p>
+                                <a href="#products-section" class="btn-hero-primary">Shop Now</a>
+                            </div>
+                            <div class="col-md-6 text-center d-none d-md-block">
+                                <img src="{% static 'images/logo.png' %}" alt="Black Is Beauty" style="max-height:300px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carousel-item">
+                <div class="hero-slide" style="background: linear-gradient(135deg, #3B2A1A 0%, #8B6040 50%, #C9A96E 100%);">
+                    <div class="container">
+                        <div class="col-md-7 hero-content" style="padding: 80px 0;">
+                            <span class="hero-eyebrow">Top Brands</span>
+                            <h1 class="hero-title">Discover<br><em>Your Brands</em></h1>
+                            <p class="hero-subtitle">Shea Moisture, Cantu, Mielle & more — all in one place.</p>
+                            <a href="#brands" class="btn-hero-primary">View All Brands</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev" style="width:50px; opacity:0.6;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next" style="width:50px; opacity:0.6;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+
+        <ol class="carousel-indicators" style="bottom:16px;">
+            <li data-target="#heroCarousel" data-slide-to="0" class="active" style="background:var(--gold);"></li>
+            <li data-target="#heroCarousel" data-slide-to="1" style="background:rgba(201,169,110,0.5);"></li>
+        </ol>
+    </div>
+</section>
+
+<section id="products-section" class="section-products">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Shop</span>
+            <h2>
+                {% if selected_gender == 'female' %}
+                    Female Products
+                {% elif selected_gender == 'male' %}
+                    Male Products
+                {% elif selected_category %}
+                    Filtered Products
+                {% else %}
+                    All Products
+                {% endif %}
+            </h2>
+            <span class="divider"></span>
+            <p>Choose a category or open a product to read full details.</p>
+        </div>
+
+        <div class="tabs-nav-wrap">
+            <ul class="tabs-nav">
+                <li class="nav-item">
+                    <a class="nav-link {% if not selected_category %}active{% endif %}"
+                       href="{% url 'homepage' %}#products-section">All</a>
+                </li>
+
+                {% for cat in categories %}
+                <li class="nav-item">
+                    <a class="nav-link {% if selected_category == cat.id|stringformat:'s' %}active{% endif %}"
+                       href="{% url 'homepage' %}?category={{ cat.id }}#products-section">
+                        {{ cat.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="row">
+            {% for product in products %}
+            <div class="col-6 col-md-3 mb-4">
+                <div class="prd-card">
+                    <a href="{% url 'product_detail' product.id %}" class="prd-card-link">
+                        <div class="prd-img-wrap">
+                            {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            {% else %}
+                            <div class="prd-placeholder">{{ product.name|truncatechars:30 }}</div>
+                            {% endif %}
+                        </div>
+                    </a>
+
+                    <div class="prd-body">
+                        <p class="prd-category">
+                            {{ product.category.name }} · {{ product.get_gender_display }}
+                        </p>
+
+                        <a href="{% url 'product_detail' product.id %}" class="prd-card-link">
+                            <h3 class="prd-name">{{ product.name|truncatechars:45 }}</h3>
+                        </a>
+
+                        <div class="prd-price">£{{ product.price }}</div>
+
+                        <p class="prd-desc-preview">
+                            {{ product.description|default:"Click to view product details."|truncatechars:80 }}
+                        </p>
+
+                        <div class="mb-2">
+                            <a href="{% url 'product_detail' product.id %}" class="btn btn-outline-dark btn-sm btn-block">
+                                View Details
+                            </a>
+                        </div>
+
+                        <form method="post" action="{% url 'homepage' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="product" value="{{ product.id }}">
+                            <input type="hidden" name="next_url" value="{{ request.get_full_path }}#products-section">
+                            <button type="submit" class="btn-add-cart">Add to Bag</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <p>No products found for this filter.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section id="brands" class="section-brands">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Our Stockists</span>
+            <h2>View All Brands</h2>
+            <span class="divider"></span>
+        </div>
+
+        <div class="text-center">
+            <span class="brand-pill">Shea Moisture</span>
+            <span class="brand-pill">Cantu</span>
+            <span class="brand-pill">Mielle Organics</span>
+            <span class="brand-pill">ORS</span>
+            <span class="brand-pill">Kinky Curly</span>
+            <span class="brand-pill">Carol's Daughter</span>
+            <span class="brand-pill">As I Am</span>
+            <span class="brand-pill">Palmer's</span>
+        </div>
+    </div>
+</section>
+
+<section id="newsletter" class="section-newsletter">
+    <div class="container">
+        <div class="section-header">
+            <span class="eyebrow">Stay Connected</span>
+            <h2>Subscribe & Save</h2>
+            <span class="divider"></span>
+            <p>Join our community and be first to hear about new arrivals, exclusive deals, and beauty tips tailored for you.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form class="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Enter your email address...">
+                        <div class="input-group-append">
+                            <button class="btn btn-dark" type="submit">Subscribe</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
